@@ -24,7 +24,7 @@ namespace System.Collections.Generic
         	var temp = collection.ToArray();
         	if (temp.Length == 0)
         		return default(T);
-        	return temp[RandomGenerator.Int32(0, temp.Length)];
+        	return temp[RandomGenerator.Int32(0, temp.Length - 1)];
         }
 
         public static IEnumerable<T> Random<T>(this IEnumerable<T> collection, int count)
