@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Gremlins.Core</id>
+        <version>1.0.0</version>
+        <title>Gremlins.Core</title>
+        <authors>Alex Kormachev</authors>
+        <licenseUrl>https://github.com/akormachev/gremlins.core/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/akormachev/gremlins.core</projectUrl>
+        <owners>Alex Kormachev</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Gremlins.Core</description>
+        <copyright>@ 2016 Alex Kormachev</copyright>
+    </metadata>
+   <files>
+        <file src="Gremlins.Core\bin\Release\Gremlins.Core.dll" target="lib\net451\Gremlins.Core.dll" />
+    </files>
+</package>
