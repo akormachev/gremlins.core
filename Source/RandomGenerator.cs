@@ -1,18 +1,27 @@
 ﻿using Gremlins.Core.Resources;
 using System;
+using System.Threading;
 
 namespace Gremlins
 {
     public static class RandomGenerator
     {
-        private static readonly Random _random;
 
-        /// <summary>
-        /// Initialize <see cref="RandomGenerator"/>
-        /// </summary>
-        static RandomGenerator()
+        #region Fields
+
+        private static int _seed = Environment.TickCount;
+
+        private static ThreadLocal<Random> _randomWrapper = new ThreadLocal<Random>(() =>
+            new Random(Interlocked.Increment(ref _seed))
+        );
+
+        #endregion
+
+        #region Public methods
+
+        public static Random GetThreadRandom()
         {
-            _random = new Random(Round.ToInt32(DateTime.UtcNow.Ticks % System.Int32.MaxValue));
+            return _randomWrapper.Value;
         }
 
         /// <summary>
@@ -21,7 +30,7 @@ namespace Gremlins
         /// <returns>bool-value</returns>
         public static bool Boolean()
         {
-            return _random.NextDouble() > 0.5;
+            return _randomWrapper.Value.NextDouble() > 0.5;
         }
 
         /// <summary>
@@ -30,7 +39,7 @@ namespace Gremlins
         /// <returns>Value</returns>
         public static int Int32()
         {
-            return _random.Next();
+            return _randomWrapper.Value.Next();
         }
 
         /// <summary>
@@ -40,7 +49,7 @@ namespace Gremlins
         /// <returns>Value</returns>
         public static int Int32(int maxValue)
         {
-            return _random.Next(maxValue);
+            return _randomWrapper.Value.Next(maxValue);
         }
 
         /// <summary>
@@ -51,7 +60,7 @@ namespace Gremlins
         /// <returns>Value</returns>
         public static int Int32(int minValue, int maxValue)
         {
-            return _random.Next(minValue, maxValue + 1);
+            return _randomWrapper.Value.Next(minValue, maxValue + 1);
         }
 
         /// <summary>
@@ -60,7 +69,7 @@ namespace Gremlins
         /// <returns>Value</returns>
         public static double Double()
         {
-            return _random.NextDouble();
+            return _randomWrapper.Value.NextDouble();
         }
 
         /// <summary>
@@ -73,7 +82,7 @@ namespace Gremlins
         {
             if (items.Length == 0)
                 throw new InvalidOperationException(Errors.SourceCollectionIsEmpty);
-            int index = _random.Next(items.Length);
+            int index = _randomWrapper.Value.Next(items.Length);
             return items[index];
         }
 
@@ -87,8 +96,10 @@ namespace Gremlins
         {
             if (items.Length == 0)
                 return default(T);
-            int index = _random.Next(items.Length);
+            int index = _randomWrapper.Value.Next(items.Length);
             return items[index];
         }
+
+        #endregion
     }
 }
